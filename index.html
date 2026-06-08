@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏆 Porra Abueloncha Mundial 2026</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Configuración de Tailwind -->
     <script>
         tailwind.config = {
             theme: {
@@ -78,9 +74,7 @@
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-    <!-- Encabezado -->
     <header class="bg-pitch text-white shadow-xl relative overflow-hidden">
-        <!-- Patrón decorativo de fondo -->
         <div class="absolute inset-0 opacity-10">
             <svg class="h-full w-full" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -101,7 +95,6 @@
                     <p class="text-xl font-light mt-2 text-green-100">Mundial 2026 - Edición Abueloncho</p>
                 </div>
                 
-                <!-- Info Bote -->
                 <div class="bg-green-900/50 backdrop-blur-sm border border-green-700 rounded-xl p-4 text-center min-w-[200px] shadow-inner">
                     <p class="text-sm text-green-200 uppercase tracking-wider font-semibold">Bote Acumulado</p>
                     <div class="text-3xl font-display font-bold text-white mt-1">65,00 €</div>
@@ -110,10 +103,12 @@
             </div>
         </div>
 
-        <!-- Navegación de Pestañas -->
         <nav class="container mx-auto px-4 relative z-10 flex overflow-x-auto no-scrollbar border-b border-green-700/50 mt-4">
             <button onclick="switchTab('tab-stats')" id="btn-tab-stats" class="tab-btn active px-6 py-3 text-white font-semibold border-b-4 border-gold bg-green-800/40 rounded-t-lg transition-colors whitespace-nowrap">
-                <i class="fa-solid fa-chart-pie mr-2"></i> El Oráculo (Estadísticas)
+                <i class="fa-solid fa-chart-pie mr-2"></i> El Oráculo
+            </button>
+            <button onclick="switchTab('tab-ranking')" id="btn-tab-ranking" class="tab-btn px-6 py-3 text-green-200 font-semibold border-b-4 border-transparent hover:text-white hover:bg-green-800/40 rounded-t-lg transition-colors whitespace-nowrap">
+                <i class="fa-solid fa-medal mr-2"></i> Clasificación
             </button>
             <button onclick="switchTab('tab-participants')" id="btn-tab-participants" class="tab-btn px-6 py-3 text-green-200 font-semibold border-b-4 border-transparent hover:text-white hover:bg-green-800/40 rounded-t-lg transition-colors whitespace-nowrap">
                 <i class="fa-solid fa-users mr-2"></i> Apuestas Detalladas
@@ -124,10 +119,8 @@
         </nav>
     </header>
 
-    <!-- Contenido Principal -->
     <main class="container mx-auto px-4 py-8 flex-grow">
         
-        <!-- PESTAÑA 1: ESTADÍSTICAS -->
         <div id="tab-stats" class="tab-content active">
             <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center">
                 <div>
@@ -136,12 +129,9 @@
                 </div>
             </div>
 
-            <!-- Grid de Estadísticas -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="stats-container">
-                <!-- Se llenará con JS -->
-            </div>
+                </div>
             
-            <!-- Destacado Nostradamus -->
             <div class="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col md:flex-row items-center gap-6 stat-card">
                 <div class="bg-red-100 p-4 rounded-full text-spain flex-shrink-0">
                     <i class="fa-solid fa-futbol fa-2x"></i>
@@ -156,14 +146,35 @@
             </div>
         </div>
 
-        <!-- PESTAÑA 2: PARTICIPANTES -->
+        <div id="tab-ranking" class="tab-content">
+            <div class="mb-6">
+                <h2 class="text-2xl font-display font-bold text-gray-800">Clasificación General</h2>
+                <p class="text-gray-500">La tabla de la verdad. ¿Quién se lleva el bote y quién paga las cañas?</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[500px]">
+                        <thead>
+                            <tr class="bg-slate-800 text-white text-sm uppercase tracking-wider">
+                                <th class="px-6 py-4 font-semibold text-center w-20">Pos</th>
+                                <th class="px-6 py-4 font-semibold">Participante</th>
+                                <th class="px-6 py-4 font-semibold text-center w-32">Puntos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ranking-container" class="divide-y divide-gray-200">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <div id="tab-participants" class="tab-content">
             <div class="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
                     <h2 class="text-2xl font-display font-bold text-gray-800">Apuestas por Participante</h2>
                     <p class="text-gray-500">Revisa qué ha puesto cada uno para llorar luego.</p>
                 </div>
-                <!-- Buscador -->
                 <div class="relative w-full sm:w-72">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fa-solid fa-search text-gray-400"></i>
@@ -172,19 +183,15 @@
                 </div>
             </div>
 
-            <!-- Contenedor de Tarjetas de Participantes -->
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6" id="participants-container">
-                <!-- Las tarjetas se generan vía JS -->
-            </div>
+                </div>
             
-            <!-- Mensaje si no hay resultados -->
             <div id="no-results" class="hidden text-center py-12">
                 <i class="fa-regular fa-face-frown-open text-4xl text-gray-300 mb-3"></i>
                 <p class="text-gray-500 text-lg">No se ha encontrado a ningún participante con ese nombre.</p>
             </div>
         </div>
 
-        <!-- PESTAÑA 3: REGLAMENTO -->
         <div id="tab-rules" class="tab-content">
             <div class="bg-white rounded-2xl shadow-md overflow-hidden">
                 <div class="bg-slate-800 text-white p-6 flex items-center gap-4">
@@ -197,7 +204,6 @@
                 
                 <div class="p-6 md:p-8 space-y-8 text-gray-700">
                     
-                    <!-- TOP 11 -->
                     <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
                         <h4 class="font-bold text-yellow-800 flex items-center gap-2 mb-2">
                             <i class="fa-solid fa-triangle-exclamation"></i> NOTA IMPORTANTE (El TOP 11)
@@ -206,7 +212,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <!-- Clásicas -->
                         <div>
                             <h3 class="text-xl font-bold border-b-2 border-gray-200 pb-2 mb-4 text-pitch flex items-center gap-2">
                                 <i class="fa-solid fa-futbol"></i> Categorías Clásicas (34 pts)
@@ -231,7 +236,6 @@
                             </ul>
                         </div>
 
-                        <!-- Divertidas -->
                         <div>
                             <h3 class="text-xl font-bold border-b-2 border-gray-200 pb-2 mb-4 text-pitch flex items-center gap-2">
                                 <i class="fa-solid fa-masks-theater"></i> Divertidas y Especiales (36 pts)
@@ -261,7 +265,6 @@
                         </div>
                     </div>
 
-                    <!-- El Abueloncho -->
                     <div class="mt-8 bg-blue-50 p-6 rounded-xl border border-blue-100">
                         <h3 class="text-xl font-bold text-blue-900 flex items-center gap-2 mb-3">
                             <span class="bg-blue-200 text-blue-800 font-bold rounded-full h-8 w-8 flex items-center justify-center">10</span> 
@@ -279,16 +282,15 @@
                         </div>
                     </div>
 
-                    <!-- Reparto Premios -->
                     <div class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200 text-center">
-                        <h3 class="font-bold text-lg mb-4 text-gray-800">💰 Reparto del Bote Actual 65€)</h3>
+                        <h3 class="font-bold text-lg mb-4 text-gray-800">💰 Reparto del Bote Actual (65€)</h3>
                         <div class="flex flex-wrap justify-center gap-4">
                             <span class="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full font-bold shadow-sm">🥇 1º: 40€</span>
                             <span class="px-4 py-2 bg-gray-200 text-gray-800 rounded-full font-bold shadow-sm">🥈 2º: 20€</span>
                             <span class="px-4 py-2 bg-orange-100 text-orange-800 rounded-full font-bold shadow-sm">🥉 3º: 5€</span>
                             <span class="px-4 py-2 bg-red-100 text-red-800 rounded-full font-bold shadow-sm">🍻 Último: Paga la 1ª ronda en la final</span>
                         </div>
-                        <p class="text-xs text-gray-500 mt-3">*Cálculo proporcional aproximado basado en 9 participantes.</p>
+                        <p class="text-xs text-gray-500 mt-3">*Cálculo proporcional aproximado basado en 13 participantes.</p>
                     </div>
                 </div>
             </div>
@@ -301,24 +303,70 @@
     </footer>
 
     <script>
-        // Datos limpios y estructurados a partir de la tabla proporcionada
+        // Datos con la propiedad extra 'points' para calcular la Clasificación
         const participantsData = [
-            { name: "Fita", champion: "Portugal", runnerUp: "España", mvp: "Cristiano Ronaldo", scorer: "Mbappé", underdog: "Colombia", fiasco: "Bélgica", butcher: "Marruecos", goalsSpain: 18, goldenMinute: "1 - 25", goldenScorer: "Oyarzabal", abueloncho: "Dzeko" },
-            { name: "Divi", champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Senegal", fiasco: "Croacia", butcher: "Irak", goalsSpain: 17, goldenMinute: "1 - 25", goldenScorer: "Oyarzabal", abueloncho: "Mohammed Salah" },
-            { name: "Parra", champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Ecuador", fiasco: "Bélgica", butcher: "Uruguay", goalsSpain: 13, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Ferrán Torres", abueloncho: "Bruno Fernandes" },
-            { name: "Javier", champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Grecia", fiasco: "Países Bajos", butcher: "Marruecos", goalsSpain: 13, goldenMinute: "1 - 25", goldenScorer: "-", abueloncho: "Neymar" },
-            { name: "Guille", champion: "España", runnerUp: "Francia", mvp: "Mbappé", scorer: "Mbappé", underdog: "Uruguay", fiasco: "Bélgica", butcher: "Argentina", goalsSpain: 9, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Mikel Oyarzabal", abueloncho: "Bruno Fernandes" },
-            { name: "Turbio", champion: "Portugal", runnerUp: "España", mvp: "Vitinha", scorer: "Harry Kane", underdog: "Canadá", fiasco: "Países Bajos", butcher: "Uruguay", goalsSpain: 25, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "-", abueloncho: "Modric" },
-            { name: "Álvaro", champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Uruguay", fiasco: "Croacia", butcher: "Uruguay", goalsSpain: 12, goldenMinute: "1 - 25", goldenScorer: "Dani Olmo", abueloncho: "Son Heung-min" },
-            { name: "Pepe", champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Harry Kane", underdog: "Turquía", fiasco: "Países Bajos", butcher: "Argentina", goalsSpain: 13, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Oyarzabal", abueloncho: "Bruno Fernandes" },
-            { name: "Luis", champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Japón", fiasco: "Inglaterra", butcher: "Uruguay", goalsSpain: 14, goldenMinute: "1 - 25", goldenScorer: "Nico Williams", abueloncho: "Bernardo Silva" },
-          { name: "Juan Melus", champion: "Portugal", runnerUp: "España", mvp: "Cristiano Ronaldo", scorer: "Cristiano Ronaldo", underdog: "México", fiasco: "Brasil", butcher: "Argentina", goalsSpain: 16, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "_", abueloncho: "Cristiano Ronaldo" },
-          { name: "Rafa", champion: "???", runnerUp: "???", mvp: "???", scorer: "???", underdog: "???", fiasco: "???", butcher: "???", goalsSpain: 0, goldenMinute: "???", goldenScorer: "???", abueloncho: "???" },
-          { name: "Chonso", champion: "???", runnerUp: "???", mvp: "???", scorer: "???", underdog: "???", fiasco: "???", butcher: "???", goalsSpain: 0, goldenMinute: "???", goldenScorer: "???", abueloncho: "???" },
-          { name: "Salva", champion: "???", runnerUp: "???", mvp: "???", scorer: "???", underdog: "???", fiasco: "???", butcher: "???", goalsSpain: 0, goldenMinute: "???", goldenScorer: "???", abueloncho: "???" }
+            { name: "Fita", points: 0, champion: "Portugal", runnerUp: "España", mvp: "Cristiano Ronaldo", scorer: "Mbappé", underdog: "Colombia", fiasco: "Bélgica", butcher: "Marruecos", goalsSpain: 18, goldenMinute: "1 - 25", goldenScorer: "Oyarzabal", abueloncho: "Dzeko" },
+            { name: "Divi", points: 0, champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Senegal", fiasco: "Croacia", butcher: "Irak", goalsSpain: 17, goldenMinute: "1 - 25", goldenScorer: "Oyarzabal", abueloncho: "Mohammed Salah" },
+            { name: "Parra", points: 0, champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Ecuador", fiasco: "Bélgica", butcher: "Uruguay", goalsSpain: 13, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Ferrán Torres", abueloncho: "Bruno Fernandes" },
+            { name: "Javier", points: 0, champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Grecia", fiasco: "Países Bajos", butcher: "Marruecos", goalsSpain: 13, goldenMinute: "1 - 25", goldenScorer: "-", abueloncho: "Neymar" },
+            { name: "Guille", points: 0, champion: "España", runnerUp: "Francia", mvp: "Mbappé", scorer: "Mbappé", underdog: "Uruguay", fiasco: "Bélgica", butcher: "Argentina", goalsSpain: 9, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Mikel Oyarzabal", abueloncho: "Bruno Fernandes" },
+            { name: "Turbio", points: 0, champion: "Portugal", runnerUp: "España", mvp: "Vitinha", scorer: "Harry Kane", underdog: "Canadá", fiasco: "Países Bajos", butcher: "Uruguay", goalsSpain: 25, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "-", abueloncho: "Modric" },
+            { name: "Álvaro", points: 0, champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Uruguay", fiasco: "Croacia", butcher: "Uruguay", goalsSpain: 12, goldenMinute: "1 - 25", goldenScorer: "Dani Olmo", abueloncho: "Son Heung-min" },
+            { name: "Pepe", points: 0, champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Harry Kane", underdog: "Turquía", fiasco: "Países Bajos", butcher: "Argentina", goalsSpain: 13, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Oyarzabal", abueloncho: "Bruno Fernandes" },
+            { name: "Luis", points: 0, champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Japón", fiasco: "Inglaterra", butcher: "Uruguay", goalsSpain: 14, goldenMinute: "1 - 25", goldenScorer: "Nico Williams", abueloncho: "Bernardo Silva" },
+            { name: "Juan Melus", points: -6, champion: "Portugal", runnerUp: "España", mvp: "Cristiano Ronaldo", scorer: "Cristiano Ronaldo", underdog: "México", fiasco: "Brasil", butcher: "Argentina", goalsSpain: 16, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "_", abueloncho: "Cristiano Ronaldo" },
+            { name: "Rafa", points: 0, champion: "???", runnerUp: "???", mvp: "???", scorer: "???", underdog: "???", fiasco: "???", butcher: "???", goalsSpain: 0, goldenMinute: "???", goldenScorer: "???", abueloncho: "???" },
+            { name: "Chonso", points: 0, champion: "???", runnerUp: "???", mvp: "???", scorer: "???", underdog: "???", fiasco: "???", butcher: "???", goalsSpain: 0, goldenMinute: "???", goldenScorer: "???", abueloncho: "???" },
+            { name: "Salva", points: 0, champion: "???", runnerUp: "???", mvp: "???", scorer: "???", underdog: "???", fiasco: "???", butcher: "???", goalsSpain: 0, goldenMinute: "???", goldenScorer: "???", abueloncho: "???" }
         ];
 
-        // Función para renderizar las tarjetas de los participantes
+        // RENDERIZAR CLASIFICACIÓN
+        function renderRanking() {
+            const container = document.getElementById('ranking-container');
+            container.innerHTML = '';
+            
+            // Ordenar de mayor a menor según los puntos
+            const sortedData = [...participantsData].sort((a, b) => b.points - a.points);
+            
+            sortedData.forEach((p, index) => {
+                const pos = index + 1;
+                let posDisplay = `<span class="text-gray-500 font-bold">${pos}</span>`;
+                let rowBg = "bg-white hover:bg-gray-50";
+                let nameClass = "text-gray-800";
+                
+                // Estilos especiales para el podio y el último
+                if (pos === 1) {
+                    posDisplay = `<span class="text-2xl" title="Oro">🥇</span>`;
+                    rowBg = "bg-yellow-50 hover:bg-yellow-100";
+                    nameClass = "text-yellow-900";
+                } else if (pos === 2) {
+                    posDisplay = `<span class="text-2xl" title="Plata">🥈</span>`;
+                    rowBg = "bg-gray-100 hover:bg-gray-200";
+                } else if (pos === 3) {
+                    posDisplay = `<span class="text-2xl" title="Bronce">🥉</span>`;
+                    rowBg = "bg-orange-50 hover:bg-orange-100";
+                } else if (pos === sortedData.length) {
+                    posDisplay = `<span class="text-xl" title="Paga las cañas">🍻</span>`;
+                    rowBg = "bg-red-50 hover:bg-red-100";
+                    nameClass = "text-red-900";
+                }
+
+                const html = `
+                    <tr class="${rowBg} transition-colors border-b border-gray-100 last:border-none">
+                        <td class="px-6 py-4 text-center whitespace-nowrap">${posDisplay}</td>
+                        <td class="px-6 py-4 font-bold text-lg ${nameClass}">
+                            <i class="fa-solid fa-user-astronaut opacity-50 mr-2 text-sm"></i> ${p.name}
+                        </td>
+                        <td class="px-6 py-4 text-center font-display font-bold text-2xl text-pitch">
+                            ${p.points}
+                        </td>
+                    </tr>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        // RENDERIZAR PARTICIPANTES
         function renderParticipants(data) {
             const container = document.getElementById('participants-container');
             const noResults = document.getElementById('no-results');
@@ -334,7 +382,6 @@
             }
 
             data.forEach(p => {
-                // Comprobar si el Abueloncho tiene handicap
                 const galacticos = ['messi', 'cristiano ronaldo', 'harry kane'];
                 const isGalactico = galacticos.includes(p.abueloncho.toLowerCase());
                 const abuelonchoBadge = isGalactico 
@@ -345,6 +392,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
                         <div class="bg-gray-50 px-5 py-4 border-b border-gray-200 flex justify-between items-center">
                             <h3 class="text-xl font-display font-bold text-gray-800"><i class="fa-solid fa-user-astronaut text-pitch mr-2"></i>${p.name}</h3>
+                            <span class="bg-pitch text-white text-xs font-bold px-2 py-1 rounded shadow-sm">${p.points} pts</span>
                         </div>
                         <div class="p-5 space-y-4 text-sm">
                             <div class="grid grid-cols-2 gap-4">
@@ -412,10 +460,12 @@
             });
         }
 
-        // Funciones para calcular estadísticas
+        // FUNCIONES ESTADÍSTICAS
         function getMostFrequent(arr) {
             const counts = arr.reduce((acc, val) => {
-                acc[val] = (acc[val] || 0) + 1;
+                if(val && val !== '???') {
+                    acc[val] = (acc[val] || 0) + 1;
+                }
                 return acc;
             }, {});
             let maxCount = 0;
@@ -429,7 +479,7 @@
                     mostFrequent.push(key);
                 }
             }
-            return { item: mostFrequent.join(' / '), count: maxCount, total: arr.length };
+            return { item: mostFrequent.length ? mostFrequent.join(' / ') : '-', count: maxCount, total: arr.filter(v => v !== '???').length };
         }
 
         function renderStats() {
@@ -445,7 +495,7 @@
             ];
 
             stats.forEach(stat => {
-                const percentage = Math.round((stat.data.count / stat.data.total) * 100);
+                const percentage = stat.data.total > 0 ? Math.round((stat.data.count / stat.data.total) * 100) : 0;
                 const html = `
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 stat-card">
                         <div class="flex items-center gap-3 mb-3">
@@ -455,7 +505,7 @@
                             <h3 class="text-sm uppercase tracking-wider font-semibold text-gray-500">${stat.title}</h3>
                         </div>
                         <div class="mt-2">
-                            <p class="text-2xl font-bold text-gray-800">${stat.data.item}</p>
+                            <p class="text-2xl font-bold text-gray-800 line-clamp-1">${stat.data.item}</p>
                             <div class="flex items-center gap-2 mt-2">
                                 <div class="flex-grow bg-gray-200 rounded-full h-2">
                                     <div class="bg-pitch h-2 rounded-full" style="width: ${percentage}%"></div>
@@ -468,13 +518,14 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // Calcular media de goles España
-            const totalGoals = participantsData.reduce((acc, p) => acc + p.goalsSpain, 0);
-            const avgGoals = (totalGoals / participantsData.length).toFixed(1);
+            // Media de goles España (filtrando los 0 de la gente que falta por rellenar)
+            const validGoals = participantsData.filter(p => p.goalsSpain > 0);
+            const totalGoals = validGoals.reduce((acc, p) => acc + p.goalsSpain, 0);
+            const avgGoals = validGoals.length > 0 ? (totalGoals / validGoals.length).toFixed(1) : 0;
             document.getElementById('avg-goals').textContent = avgGoals;
         }
 
-        // Lógica de Pestañas
+        // LÓGICA DE PESTAÑAS
         function switchTab(tabId) {
             // Ocultar todos los contenidos
             document.querySelectorAll('.tab-content').forEach(el => {
@@ -483,7 +534,7 @@
             // Mostrar el seleccionado
             document.getElementById(tabId).classList.add('active');
 
-            // Actualizar botones
+            // Actualizar apariencia de los botones
             document.querySelectorAll('.tab-btn').forEach(el => {
                 el.classList.remove('text-white', 'border-gold', 'bg-green-800/40');
                 el.classList.add('text-green-200', 'border-transparent');
@@ -494,15 +545,16 @@
             activeBtn.classList.add('text-white', 'border-gold', 'bg-green-800/40');
         }
 
-        // Lógica de Búsqueda
+        // LÓGICA DE BÚSQUEDA
         function filterParticipants() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const filteredData = participantsData.filter(p => p.name.toLowerCase().includes(query));
             renderParticipants(filteredData);
         }
 
-        // Inicialización al cargar la página
+        // INICIALIZACIÓN
         window.onload = function() {
+            renderRanking();
             renderParticipants(participantsData);
             renderStats();
         };
