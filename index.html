@@ -70,6 +70,18 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+
+        /* Tooltip behavior para móviles (se activa al hacer clic o hover) */
+        .tooltip-container .tooltip-content {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+        .tooltip-container:hover .tooltip-content,
+        .tooltip-container:active .tooltip-content {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
@@ -130,7 +142,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="stats-container">
-                </div>
+            </div>
             
             <div class="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col md:flex-row items-center gap-6 stat-card">
                 <div class="bg-red-100 p-4 rounded-full text-spain flex-shrink-0">
@@ -138,7 +150,7 @@
                 </div>
                 <div class="flex-grow text-center md:text-left">
                     <h3 class="text-xl font-bold text-gray-800 mb-1">Promedio Goles España</h3>
-                    <p class="text-gray-600">Según los 13 participantes, España marcará una media de:</p>
+                    <p class="text-gray-600">Según los participantes, España marcará una media de:</p>
                 </div>
                 <div class="text-5xl font-display font-bold text-spain bg-red-50 px-6 py-3 rounded-xl">
                     <span id="avg-goals">0</span>
@@ -149,21 +161,21 @@
         <div id="tab-ranking" class="tab-content">
             <div class="mb-6">
                 <h2 class="text-2xl font-display font-bold text-gray-800">Clasificación General</h2>
-                <p class="text-gray-500">¿Quién se lleva el bote y quién paga las cañas?</p>
+                <p class="text-gray-500">La tabla de la verdad. Deja el cursor sobre los puntos para ver el desglose.</p>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
-                <div class="overflow-x-auto">
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 pb-20">
+                <div class="overflow-x-auto overflow-y-visible">
                     <table class="w-full text-left border-collapse min-w-[500px]">
                         <thead>
                             <tr class="bg-slate-800 text-white text-sm uppercase tracking-wider">
                                 <th class="px-6 py-4 font-semibold text-center w-20">Pos</th>
                                 <th class="px-6 py-4 font-semibold">Participante</th>
-                                <th class="px-6 py-4 font-semibold text-center w-32">Puntos</th>
+                                <th class="px-6 py-4 font-semibold text-center w-40">Puntos Totales</th>
                             </tr>
                         </thead>
                         <tbody id="ranking-container" class="divide-y divide-gray-200">
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -184,7 +196,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6" id="participants-container">
-                </div>
+            </div>
             
             <div id="no-results" class="hidden text-center py-12">
                 <i class="fa-regular fa-face-frown-open text-4xl text-gray-300 mb-3"></i>
@@ -303,30 +315,54 @@
     </footer>
 
     <script>
-        // Datos con la propiedad extra 'points' para calcular la Clasificación
+        // DATOS ORIGINALES INTACTOS: Ahora incluyen 'penalizacion' dentro de 'scores'
         const participantsData = [
-            { name: "Fita", points: 0, champion: "Portugal", runnerUp: "España", mvp: "Cristiano Ronaldo", scorer: "Mbappé", underdog: "Colombia", fiasco: "Bélgica", butcher: "Marruecos", goalsSpain: 18, goldenMinute: "1 - 25", goldenScorer: "Oyarzabal", abueloncho: "Dzeko" },
-            { name: "Divi", points: 0, champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Senegal", fiasco: "Croacia", butcher: "Irak", goalsSpain: 17, goldenMinute: "1 - 25", goldenScorer: "Oyarzabal", abueloncho: "Mohammed Salah" },
-            { name: "Parra", points: 0, champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Ecuador", fiasco: "Bélgica", butcher: "Uruguay", goalsSpain: 13, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Ferrán Torres", abueloncho: "Bruno Fernandes" },
-            { name: "Javier", points: 0, champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Grecia", fiasco: "Países Bajos", butcher: "Marruecos", goalsSpain: 13, goldenMinute: "1 - 25", goldenScorer: "-", abueloncho: "Neymar" },
-            { name: "Guille", points: 0, champion: "España", runnerUp: "Francia", mvp: "Mbappé", scorer: "Mbappé", underdog: "Uruguay", fiasco: "Bélgica", butcher: "Argentina", goalsSpain: 9, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Mikel Oyarzabal", abueloncho: "Bruno Fernandes" },
-            { name: "Turbio", points: 0, champion: "Portugal", runnerUp: "España", mvp: "Vitinha", scorer: "Harry Kane", underdog: "Canadá", fiasco: "Países Bajos", butcher: "Uruguay", goalsSpain: 25, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "-", abueloncho: "Modric" },
-            { name: "Álvaro", points: 0, champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Uruguay", fiasco: "Croacia", butcher: "Uruguay", goalsSpain: 12, goldenMinute: "1 - 25", goldenScorer: "Dani Olmo", abueloncho: "Son Heung-min" },
-            { name: "Pepe", points: 0, champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Harry Kane", underdog: "Turquía", fiasco: "Países Bajos", butcher: "Argentina", goalsSpain: 13, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Oyarzabal", abueloncho: "Bruno Fernandes" },
-            { name: "Luis", points: 0, champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Japón", fiasco: "Inglaterra", butcher: "Uruguay", goalsSpain: 14, goldenMinute: "1 - 25", goldenScorer: "Nico Williams", abueloncho: "Bernardo Silva" },
-            { name: "Juan Melus", points: -6, champion: "Portugal", runnerUp: "España", mvp: "Cristiano Ronaldo", scorer: "Cristiano Ronaldo", underdog: "México", fiasco: "Brasil", butcher: "Argentina", goalsSpain: 16, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "_", abueloncho: "Cristiano Ronaldo" },
-            { name: "Rafita", points: 0, champion: "Francia", runnerUp: "Brasil", mvp: "Vitinha", scorer: "Mbappé", underdog: "Suiza", fiasco: "Portugal", butcher: "Uruguay", goalsSpain: 19, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Ferran Torres", abueloncho: "Bruno Fernandes" },
-            { name: "Chonso", points: -6, champion: "Portugal", runnerUp: "España", mvp: "Lamine Yamal", scorer: "Raphinha", underdog: "Rep. Checa", fiasco: "Brasil", butcher: "Panamá", goalsSpain: 22, goldenMinute: "1 - 25", goldenScorer: "Mikel Oyarzabal", abueloncho: "Cristiano Ronaldo" },
-            { name: "Salva", points: 0, champion: "???", runnerUp: "???", mvp: "???", scorer: "???", underdog: "???", fiasco: "???", butcher: "???", goalsSpain: 0, goldenMinute: "???", goldenScorer: "???", abueloncho: "???" }
+            { name: "Fita", scores: { total: 0, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: 0 }, champion: "Portugal", runnerUp: "España", mvp: "Cristiano Ronaldo", scorer: "Mbappé", underdog: "Colombia", fiasco: "Bélgica", butcher: "Marruecos", goalsSpain: 18, goldenMinute: "1 - 25", goldenScorer: "Oyarzabal", abueloncho: "Dzeko" },
+            { name: "Divi", scores: { total: 0, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: 0 }, champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Senegal", fiasco: "Croacia", butcher: "Irak", goalsSpain: 17, goldenMinute: "1 - 25", goldenScorer: "Oyarzabal", abueloncho: "Mohammed Salah" },
+            { name: "Parra", scores: { total: 0, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: 0 }, champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Ecuador", fiasco: "Bélgica", butcher: "Uruguay", goalsSpain: 13, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Ferrán Torres", abueloncho: "Bruno Fernandes" },
+            { name: "Javier", scores: { total: 0, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: 0 }, champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Grecia", fiasco: "Países Bajos", butcher: "Marruecos", goalsSpain: 13, goldenMinute: "1 - 25", goldenScorer: "-", abueloncho: "Neymar" },
+            { name: "Guille", scores: { total: 0, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: 0 }, champion: "España", runnerUp: "Francia", mvp: "Mbappé", scorer: "Mbappé", underdog: "Uruguay", fiasco: "Bélgica", butcher: "Argentina", goalsSpain: 9, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Mikel Oyarzabal", abueloncho: "Bruno Fernandes" },
+            { name: "Turbio", scores: { total: 0, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: 0 }, champion: "Portugal", runnerUp: "España", mvp: "Vitinha", scorer: "Harry Kane", underdog: "Canadá", fiasco: "Países Bajos", butcher: "Uruguay", goalsSpain: 25, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "-", abueloncho: "Modric" },
+            { name: "Álvaro", scores: { total: 0, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: 0 }, champion: "España", runnerUp: "Francia", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Uruguay", fiasco: "Croacia", butcher: "Uruguay", goalsSpain: 12, goldenMinute: "1 - 25", goldenScorer: "Dani Olmo", abueloncho: "Son Heung-min" },
+            { name: "Pepe", scores: { total: 0, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: 0 }, champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Harry Kane", underdog: "Turquía", fiasco: "Países Bajos", butcher: "Argentina", goalsSpain: 13, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Oyarzabal", abueloncho: "Bruno Fernandes" },
+            { name: "Luis", scores: { total: 0, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: 0 }, champion: "España", runnerUp: "Portugal", mvp: "Lamine Yamal", scorer: "Mbappé", underdog: "Japón", fiasco: "Inglaterra", butcher: "Uruguay", goalsSpain: 14, goldenMinute: "1 - 25", goldenScorer: "Nico Williams", abueloncho: "Bernardo Silva" },
+            { name: "Juan Melus", scores: { total: -6, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: -6 }, champion: "Portugal", runnerUp: "España", mvp: "Cristiano Ronaldo", scorer: "Cristiano Ronaldo", underdog: "México", fiasco: "Brasil", butcher: "Argentina", goalsSpain: 16, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "_", abueloncho: "Cristiano Ronaldo" },
+            { name: "Rafita", scores: { total: 0, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: 0 }, champion: "Francia", runnerUp: "Brasil", mvp: "Vitinha", scorer: "Mbappé", underdog: "Suiza", fiasco: "Portugal", butcher: "Uruguay", goalsSpain: 19, goldenMinute: "26 - 45 (+ extra time)", goldenScorer: "Ferran Torres", abueloncho: "Bruno Fernandes" },
+            { name: "Chonso", scores: { total: -6, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: -6 }, champion: "Portugal", runnerUp: "España", mvp: "Lamine Yamal", scorer: "Raphinha", underdog: "Rep. Checa", fiasco: "Países Bajos", butcher: "Panamá", goalsSpain: 22, goldenMinute: "1 - 25", goldenScorer: "Mikel Oyarzabal", abueloncho: "Cristiano Ronaldo" },
+            { name: "Salva", scores: { total: 0, campeon: 0, subcampeon: 0, mvp: 0, botaOro: 0, underdog: 0, fiasco: 0, carnicero: 0, nostradamus: 0, minutoOro: 0, abueloncho: 0, penalizacion: 0 }, champion: "???", runnerUp: "???", mvp: "???", scorer: "???", underdog: "???", fiasco: "???", butcher: "???", goalsSpain: 0, goldenMinute: "???", goldenScorer: "???", abueloncho: "???" }
         ];
+
+        // Función que genera el contenido del Tooltip
+        function getTooltipHTML(scores) {
+            return `
+                <div class="tooltip-content absolute z-50 w-52 p-3 text-sm text-left bg-gray-900 text-white rounded-lg shadow-xl right-0 top-full mt-2 lg:left-1/2 lg:-translate-x-1/2 border border-gray-700 pointer-events-none">
+                    <p class="font-bold border-b border-gray-700 pb-1 mb-2 text-gold">Desglose de Puntos</p>
+                    <div class="grid grid-cols-2 gap-y-1 gap-x-2 text-xs">
+                        <p class="text-gray-300">🏆 Campeón: <span class="font-bold text-green-400 float-right">${scores.campeon}</span></p>
+                        <p class="text-gray-300">🥈 Subcamp: <span class="font-bold text-green-400 float-right">${scores.subcampeon}</span></p>
+                        <p class="text-gray-300">⚽ Bota Oro: <span class="font-bold text-green-400 float-right">${scores.botaOro}</span></p>
+                        <p class="text-gray-300">⭐ MVP: <span class="font-bold text-green-400 float-right">${scores.mvp}</span></p>
+                        <p class="text-gray-300">🚀 Underdog: <span class="font-bold text-green-400 float-right">${scores.underdog}</span></p>
+                        <p class="text-gray-300">📉 Fiasco: <span class="font-bold text-green-400 float-right">${scores.fiasco}</span></p>
+                        <p class="text-gray-300">🪓 Carnicero: <span class="font-bold text-green-400 float-right">${scores.carnicero}</span></p>
+                        <p class="text-gray-300">🔮 Nostrad: <span class="font-bold text-green-400 float-right">${scores.nostradamus}</span></p>
+                        <p class="text-gray-300 col-span-2">⏱️ Min Oro: <span class="font-bold text-green-400 float-right">${scores.minutoOro}</span></p>
+                        <p class="text-gray-300 col-span-2">👴 Abueloncho: <span class="font-bold text-green-400 float-right">${scores.abueloncho}</span></p>
+                    </div>
+                    <div class="border-t border-gray-700 mt-2 pt-2 text-xs">
+                        <p class="text-gray-300">🚨 Penalización: <span class="font-bold ${scores.penalizacion < 0 ? 'text-red-500' : 'text-green-400'} float-right">${scores.penalizacion}</span></p>
+                    </div>
+                </div>
+            `;
+        }
 
         // RENDERIZAR CLASIFICACIÓN
         function renderRanking() {
             const container = document.getElementById('ranking-container');
             container.innerHTML = '';
             
-            // Ordenar de mayor a menor según los puntos
-            const sortedData = [...participantsData].sort((a, b) => b.points - a.points);
+            // Ordenar por la suma total de puntos
+            const sortedData = [...participantsData].sort((a, b) => b.scores.total - a.scores.total);
             
             sortedData.forEach((p, index) => {
                 const pos = index + 1;
@@ -334,7 +370,6 @@
                 let rowBg = "bg-white hover:bg-gray-50";
                 let nameClass = "text-gray-800";
                 
-                // Estilos especiales para el podio y el último
                 if (pos === 1) {
                     posDisplay = `<span class="text-2xl" title="Oro">🥇</span>`;
                     rowBg = "bg-yellow-50 hover:bg-yellow-100";
@@ -357,8 +392,11 @@
                         <td class="px-6 py-4 font-bold text-lg ${nameClass}">
                             <i class="fa-solid fa-user-astronaut opacity-50 mr-2 text-sm"></i> ${p.name}
                         </td>
-                        <td class="px-6 py-4 text-center font-display font-bold text-2xl text-pitch">
-                            ${p.points}
+                        <td class="px-6 py-4 text-center font-display">
+                            <div class="tooltip-container relative inline-block cursor-help bg-white/50 px-4 py-1 rounded-full border border-gray-200 hover:bg-gray-100 transition-colors">
+                                <span class="font-bold text-2xl text-pitch">${p.scores.total}</span> <span class="text-xs text-gray-500 ml-1">pts</span>
+                                ${getTooltipHTML(p.scores)}
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -389,10 +427,16 @@
                     : '';
 
                 const cardHTML = `
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-                        <div class="bg-gray-50 px-5 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-visible hover:shadow-md transition-shadow">
+                        <div class="bg-gray-50 px-5 py-4 border-b border-gray-200 flex justify-between items-center relative">
                             <h3 class="text-xl font-display font-bold text-gray-800"><i class="fa-solid fa-user-astronaut text-pitch mr-2"></i>${p.name}</h3>
-                            <span class="bg-pitch text-white text-xs font-bold px-2 py-1 rounded shadow-sm">${p.points} pts</span>
+                            
+                            <div class="tooltip-container relative cursor-help">
+                                <span class="bg-pitch text-white text-xs font-bold px-3 py-1.5 rounded shadow-sm hover:bg-green-700 transition-colors">
+                                    ${p.scores.total} pts <i class="fa-solid fa-caret-down ml-1"></i>
+                                </span>
+                                ${getTooltipHTML(p.scores)}
+                            </div>
                         </div>
                         <div class="p-5 space-y-4 text-sm">
                             <div class="grid grid-cols-2 gap-4">
@@ -449,7 +493,7 @@
                                     <div>
                                         <p class="text-[10px] text-gray-400">1er GOL</p>
                                         <p class="font-semibold text-gray-800 text-xs">${p.goldenMinute}</p>
-                                        ${p.goldenScorer !== '-' ? `<p class="text-[10px] font-bold text-spain">${p.goldenScorer}</p>` : ''}
+                                        ${p.goldenScorer !== '-' && p.goldenScorer !== '???' ? `<p class="text-[10px] font-bold text-spain">${p.goldenScorer}</p>` : ''}
                                     </div>
                                 </div>
                             </div>
@@ -484,6 +528,7 @@
 
         function renderStats() {
             const container = document.getElementById('stats-container');
+            container.innerHTML = '';
             
             const stats = [
                 { title: "Favorito Campeón", icon: "fa-trophy text-gold", data: getMostFrequent(participantsData.map(p => p.champion)) },
