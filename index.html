@@ -183,8 +183,18 @@
                 <div class="overflow-x-auto bg-white p-4 rounded-lg shadow border">
                     <h3 class="font-bold text-lg mb-2">Carnicero (Puntos de sanción)</h3>
                     <table class="w-full text-sm border">
-                        <tr class="bg-gray-100 font-bold"><td>6</td><td>5</td><td>3</td><td>2</td></tr>
-                        <tr><td>Sudáfrica (2 A, 2 R)</td><td>Paraguay (5 A)</td><td>Bosnia y Herzegovina (3 A), Escocia (3 A), Costa de Marfil (3 A), Países Bajos (3A), México (1 A, 1 R)</td><td>Canadá (2 A), Qatar (2 A), Brasil (2 A), Egipto (2 A)</td></tr>
+                        <tr class="bg-gray-100 font-bold"><td>Selección</td><td>T. Amarillas</td><td>T. Rojas.</td><td>Puntos</td></tr>
+                        </thead>
+                        <tbody id="carnicero-table">
+                            <tr><td>Sudáfrica</td><td>2</td><td>2</td><td>6</td></tr>
+                            <tr><td>Paraguay</td><td>5</td><td>0</td><td>5</td></tr>
+                            <tr><td>Bosnia y Herzegovina</td><td>3</td><td>0</td><td>3</td></tr>
+                            <tr><td>Escocia</td><td>3</td><td>0</td><td>3</td></tr>
+                            <tr><td>Costa de Marfil</td><td>3</td><td>0</td><td>3</td></tr>
+                            <tr><td>Países Bajos</td><td>3</td><td>0</td><td>3</td></tr>
+                            <tr><td>México</td><td>1</td><td>1</td><td>3</td></tr>
+                            <tr><td>Canadá</td><td>2</td><td>0</td><td>2</td></tr>
+                            <tr><td>Qatar</td><td>2</td><td>0</td><td>2</td></tr>
                     </table>
                 </div>
                 <div class="overflow-x-auto bg-white p-4 rounded-lg shadow border">
@@ -582,15 +592,28 @@
                 const pointsB = parseFloat(b.cells[5].textContent);
                 return pointsB - pointsA; // Orden descendente
             });
-            
+          
             rows.forEach(row => tableBody.appendChild(row));
         }
-
+  // Función para ordenar la tabla Abueloncho
+        function sortCarniceroTable() {
+            const tableBody = document.getElementById('carnicero-table');
+            const rows = Array.from(tableBody.querySelectorAll('tr'));
+            
+            rows.sort((a, b) => {
+                const pointsA = parseFloat(a.cells[3].textContent);
+                const pointsB = parseFloat(b.cells[3].textContent);
+                return pointsB - pointsA; // Orden descendente
+            });
+          
+            rows.forEach(row => tableBody.appendChild(row));
+        }
         window.onload = function() {
             renderRanking();
             renderParticipants(participantsData);
             renderStats();
             sortAbuelonchoTable(); // Ordenar al cargar
+            sortCarniceroTable();
         };
     </script>
 </body>
